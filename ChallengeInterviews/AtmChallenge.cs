@@ -6,24 +6,20 @@ namespace ChallengeInterviews
     {
         public static int[] Withdraw(int value)
         {
-            int oneHundredEuroBillCounter = 0;
-            int fifityEurosBillCounter = 0;
-            int tenEurosBillCounter = 0;
+            var oneHundredEuroBillCounter = 0;
+            var fifityEurosBillCounter = 0;
+            var tenEurosBillCounter = 0;
+            var billCounter = 0;
 
-            int amountAvailable = 1000;
-            int billCounter = 0;
-
-            if (amountAvailable < value)
-                return new int[0];
-
-            if (value == 100)
-                return new int[] {100};
-
-            if (value == 50)
-                return new int[] {50};
-
-            if (value == 10)
-                return new int[] {10};
+            switch (value)
+            {
+                case 100:
+                    return new int[] {100};
+                case 50:
+                    return new int[] {50};
+                case 10:
+                    return new int[] {10};
+            }
 
             while (value > 0)
             {
@@ -32,15 +28,13 @@ namespace ChallengeInterviews
                     billCounter++;
                     oneHundredEuroBillCounter++;
                     value -= 100;
-                    amountAvailable -= 100;
                 }
 
-                if ((value is < 100 or >= 50))
+                if ((value is < 100 and >= 50))
                 {
                     billCounter++;
                     fifityEurosBillCounter++;
                     value -= 50;
-                    amountAvailable -= 50;
                 }
 
                 if ((value is < 50 and >= 10))
@@ -48,7 +42,6 @@ namespace ChallengeInterviews
                     billCounter++;
                     tenEurosBillCounter++;
                     value -= 10;
-                    amountAvailable -= 10;
                 }
 
                 if (value is < 10 and > 0)
@@ -57,31 +50,34 @@ namespace ChallengeInterviews
                 }
             }
 
-            int[] bills = new int[billCounter];
+            var bills = new int[billCounter];
+            var index = 0;
 
-            for (int i = 0; i < bills.Length - 1; i++)
+            if (oneHundredEuroBillCounter > 0)
             {
-                for (int j = 0; j < oneHundredEuroBillCounter; j++)
+                for (var j = 0; j < oneHundredEuroBillCounter; j++)
                 {
-                    bills[i + j] = 100;
+                    bills[index + j] = 100;
                 }
+
+                index += oneHundredEuroBillCounter;
             }
 
-            for (int i = oneHundredEuroBillCounter; i <= bills.Length - 1; i++)
+            if (fifityEurosBillCounter > 0)
             {
-                for (int j = 0; j < fifityEurosBillCounter; j++)
+                for (var j = 0; j < fifityEurosBillCounter; j++)
                 {
-                    bills[i + j] = 50;
+                    bills[index + j] = 50;
                 }
+
+                index += fifityEurosBillCounter;
             }
 
-            for (int i = fifityEurosBillCounter > 0 ? fifityEurosBillCounter : tenEurosBillCounter;
-                i <= bills.Length - 1;
-                i++)
+            if (tenEurosBillCounter <= 0) return bills;
             {
-                for (int j = 0; j < (fifityEurosBillCounter > 0 ? fifityEurosBillCounter : tenEurosBillCounter); j++)
+                for (var j = 0; j < tenEurosBillCounter; j++)
                 {
-                    bills[i + j] = fifityEurosBillCounter > 0 ? 50 : 10;
+                    bills[index + j] = 10;
                 }
             }
 
