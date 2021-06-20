@@ -87,5 +87,32 @@ namespace ChallengeInterviews.Tests
             Assert.Equal("No bills available", exception.Message);
             Assert.IsType<Exception>(exception);
         }
+        
+        [Fact]
+        public void AskedFor10EurosShouldReturn10EurosBill()
+        {
+            var result = AtmChallenge.Withdraw(10);
+
+            Assert.Single(result);
+            Assert.Equal(10, result[0]);
+        }
+        
+        [Fact]
+        public void AskedFor50EurosShouldReturn50EurosBill()
+        {
+            var result = AtmChallenge.Withdraw(50);
+
+            Assert.Single(result);
+            Assert.Equal(50, result[0]);
+        }
+        
+        [Fact]
+        public void AskedFor100EurosShouldReturn100EurosBill()
+        {
+            var result = AtmChallenge.Withdraw(100);
+
+            Assert.Single(result);
+            Assert.Equal(100, result[0]);
+        }
     }
 }
